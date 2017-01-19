@@ -1,7 +1,5 @@
 .DS_Store
 node_modules/
-lib/
-dist/
 npm-debug.log
 test/unit/coverage
 *.tgz
