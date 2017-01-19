@@ -1,13 +1,13 @@
 {
   "name": "vue-intercom",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "An Intercom plugin for Vue.js",
   "contributors": [
     "Tyrone Tudehope <tyronetudehope@gmail.com>"
   ],
   "license": "MIT",
   "main": "lib/index.js",
-  "repository": "johnnynotsolucky/vue-intercom",
+  "repository": "continuon/vue-intercom",
   "scripts": {
     "bundle:web": "rm -rf dist && webpack --config build/webpack.bundle.conf.js",
     "bundle:lib": "rm -rf lib && babel src --out-dir lib",
