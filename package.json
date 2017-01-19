@@ -1,6 +1,6 @@
 {
   "name": "vue-intercom",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "An Intercom plugin for Vue.js",
   "contributors": [
     "Tyrone Tudehope <tyronetudehope@gmail.com>"
