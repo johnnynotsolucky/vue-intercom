@@ -1,5 +1,5 @@
-/* eslint-disable no-extend-native */
 /* globals window */
+/* eslint-disable no-extend-native */
 
 import Vue from 'vue';
 import VueIntercom from '../../src/index';

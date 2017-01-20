@@ -37,7 +37,7 @@ webpackConfig.module.loaders.some(function (loader, i) {
 module.exports = function (config) {
   config.set({
     browsers: ['PhantomJS'],
-    frameworks: ['mocha', 'chai', 'sinon-chai'],
+    frameworks: ['mocha', 'chai', 'sinon'],
     reporters: ['spec', 'coverage'],
     files: ['./index.js'],
     preprocessors: {
