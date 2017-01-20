@@ -19,6 +19,34 @@ Vue.use(VueIntercom, { appId: 'your-app-id' });
 
 `vue-intercom` handles the injection of Intercom's script into your html and wraps calls to the Intercom API with methods and exposes them through the `$intercom` object in your components.
 
+```javascript
+new Vue({
+  el: '#app',
+  data() {
+    return {
+      userId: 1,
+      name: 'Foo Bar',
+      email: 'foo@bar.com',
+    };
+  },
+  watch: {
+    '$intercom.ready': function ready() {
+      this.$intercom.boot({
+        user_id: this.userId,
+        name: this.name,
+        email: this.email,
+      });
+      this.$intercom.show();
+    },
+    email(email) {
+      this.$intercom.update({ email });
+    },
+  }
+});
+```
+
+## API
+
 ### Values
 
 #### `$intercom.ready`
