@@ -90,7 +90,6 @@ init.install = function install (_Vue, { appId }) {
     created () {
       if (!installed) {
         init.loadScript(appId, () => {
-          console.log('here?')
           this.$intercom._init()
         })
         installed = true
@@ -107,7 +106,6 @@ init.loadScript = function loadScript (appId, done) {
   script.src = `https://widget.intercom.io/widget/${appId}`
   const firstScript = document.getElementsByTagName('script')[0]
   firstScript.parentNode.insertBefore(script, firstScript)
-  console.log('loading?')
   script.onload = done
 }
 
