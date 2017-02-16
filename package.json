@@ -1,6 +1,6 @@
 {
   "name": "vue-intercom",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "An Intercom plugin for Vue.js",
   "contributors": [
     "Tyrone Tudehope <tyronetudehope@gmail.com>"
@@ -30,7 +30,6 @@
     "copy-webpack-plugin": "^4.0.0",
     "es6-promise": "^4.0.5",
     "eslint": "^3.7.1",
-    "eslint-config-airbnb-base": "^11.0.1",
     "eslint-friendly-formatter": "^2.0.5",
     "eslint-loader": "^1.5.0",
     "eslint-plugin-import": "^2.2.0",
