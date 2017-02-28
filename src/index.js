@@ -1,20 +1,26 @@
 /* globals window, document */
-const assert = (condition, msg) => {
-  if (!condition) throw new Error(`[vue-intercom] ${msg}`)
-}
+const callIf = (a, f) => a && f()
+
+const assert = (condition, msg) => callIf(!condition, () => {
+  throw new Error(`[vue-intercom] ${msg}`)
+})
 
 const toArray = (o, f) => {
   const arr = []
   const r = typeof f === 'function' ? f() : true
-  if (o && r) {
-    arr.push(o)
-  }
+  callIf(o && r, () => arr.push(o))
   return arr
+}
+
+const callWithArgs = () => {
+  const intercomAvailable = window && window.Intercom && typeof window.Intercom === 'function'
+  return (...args) => intercomAvailable && window.Intercom(...args)
 }
 
 let Vue
 const init = ({ appId }) => {
   assert(Vue, 'call Vue.use(VueIntercom) before creating an instance')
+
   const vm = new Vue({
     data () {
       return {
@@ -39,43 +45,43 @@ const init = ({ appId }) => {
     }
   })
 
+  const callIntercom = callWithArgs()
+
   intercom._init = () => {
     vm.ready = true
-    window.Intercom('onHide', () => (vm.visible = false))
-    window.Intercom('onShow', () => (vm.visible = true))
-    window.Intercom('onUnreadCountChange', unreadCount => (vm.unreadCount = unreadCount))
+    callIntercom('onHide', () => (vm.visible = false))
+    callIntercom('onShow', () => (vm.visible = true))
+    callIntercom('onUnreadCountChange', unreadCount => (vm.unreadCount = unreadCount))
   }
   intercom.boot = (options) => {
     const opts = options || {}
-    if (!opts.app_id) {
-      opts.app_id = appId
-    }
-    window.Intercom('boot', opts)
+    callIf(!opts.app_id, () => (opts.app_id = appId))
+    callIntercom('boot', opts)
   }
   intercom.shutdown = () => {
-    window.Intercom('shutdown')
+    callIntercom('shutdown')
   }
   intercom.update = (options) => {
-    window.Intercom('update', ...toArray(options))
+    callIntercom('update', ...toArray(options))
   }
   intercom.show = () => {
-    window.Intercom('show')
+    callIntercom('show')
   }
   intercom.hide = () => {
-    window.Intercom('hide')
+    callIntercom('hide')
   }
   intercom.showMessages = () => {
-    window.Intercom('showMessages')
+    callIntercom('showMessages')
   }
   intercom.showNewMessage = (content) => {
     const isString = () => typeof content === 'string'
-    window.Intercom('showNewMessage', ...toArray(content, isString))
+    callIntercom('showNewMessage', ...toArray(content, isString))
   }
   intercom.trackEvent = (name, metadata) => {
     const args = [name].concat(toArray(metadata))
-    window.Intercom('trackEvent', ...args)
+    callIntercom('trackEvent', ...args)
   }
-  intercom.getVisitorId = () => window.Intercom('getVisitorId')
+  intercom.getVisitorId = () => callIntercom('getVisitorId')
 
   return intercom
 }
@@ -88,12 +94,12 @@ init.install = function install (_Vue, { appId }) {
   const vueIntercom = init({ appId })
   Vue.mixin({
     created () {
-      if (!installed) {
+      callIf(!installed, () => {
         init.loadScript(appId, () => {
           this.$intercom._init()
         })
         installed = true
-      }
+      })
     }
   })
   Object.defineProperty(Vue.prototype, '$intercom', {
