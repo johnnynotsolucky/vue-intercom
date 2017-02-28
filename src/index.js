@@ -12,11 +12,6 @@ const toArray = (o, f) => {
   return arr
 }
 
-const callWithArgs = () => {
-  const intercomAvailable = window && window.Intercom && typeof window.Intercom === 'function'
-  return (...args) => intercomAvailable && window.Intercom(...args)
-}
-
 let Vue
 const init = ({ appId }) => {
   assert(Vue, 'call Vue.use(VueIntercom) before creating an instance')
@@ -45,7 +40,10 @@ const init = ({ appId }) => {
     }
   })
 
-  const callIntercom = callWithArgs()
+  const callIntercom = (...args) => {
+    const intercomAvailable = window && window.Intercom && typeof window.Intercom === 'function'
+    return intercomAvailable && window.Intercom(...args)
+  }
 
   intercom._init = () => {
     vm.ready = true
