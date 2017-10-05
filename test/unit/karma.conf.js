@@ -6,11 +6,6 @@ var projectRoot = path.resolve(__dirname, '../../')
 
 var webpackConfig = merge(baseConfig, {
   devtool: '#inline-source-map',
-  vue: {
-    loaders: {
-      js: 'isparta'
-    }
-  },
   plugins: [
     new webpack.DefinePlugin({
       'process.env': require('../../config/env')
@@ -20,21 +15,21 @@ var webpackConfig = merge(baseConfig, {
 
 delete webpackConfig.entry
 
-webpackConfig.module.preLoaders = webpackConfig.module.preLoaders || []
-webpackConfig.module.preLoaders.unshift({
+webpackConfig.module.rules.unshift({
   test: /\.js$/,
-  loader: 'isparta',
+  enforce: 'pre',
+  loader: 'isparta-loader',
   include: path.resolve(projectRoot, 'src')
 })
 
-webpackConfig.module.loaders.some(function (loader, i) {
-  if (loader.loader === 'babel') {
+webpackConfig.module.rules.some(function(loader, i) {
+  if (loader.loader === 'babel-loader') {
     loader.include = path.resolve(projectRoot, 'test/unit')
     return true
   }
 })
 
-module.exports = function (config) {
+module.exports = function(config) {
   config.set({
     browsers: ['PhantomJS'],
     frameworks: ['mocha', 'chai', 'sinon'],
@@ -49,10 +44,7 @@ module.exports = function (config) {
     },
     coverageReporter: {
       dir: './coverage',
-      reporters: [
-        { type: 'lcov', subdir: '.' },
-        { type: 'text-summary' }
-      ]
+      reporters: [{ type: 'lcov', subdir: '.' }, { type: 'text-summary' }]
     }
   })
 }

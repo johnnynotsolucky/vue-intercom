@@ -2,8 +2,10 @@
 import Vue from 'vue'
 import VueIntercom from '../../src/index'
 
-window.Intercom = () => { /* noOp */ }
-VueIntercom.loadScript = (appId, done) => (setTimeout(done, 25))
+window.Intercom = () => {
+  /* noOp */
+}
+VueIntercom.loadScript = (appId, done) => setTimeout(done, 25)
 Vue.use(VueIntercom, { appId: 'foobar' })
 
 Function.prototype.bind = require('function-bind')

@@ -5,4 +5,7 @@ module.exports = {
     sourceType: 'module'
   },
   extends: 'standard',
+  rules: {
+    'space-before-function-paren': 'off'
+  }
 }

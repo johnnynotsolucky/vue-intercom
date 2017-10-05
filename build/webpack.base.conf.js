@@ -5,35 +5,27 @@ var env = process.env.NODE_ENV
 
 module.exports = {
   resolve: {
-    extensions: ['', '.js'],
-    fallback: [path.join(__dirname, '../node_modules')],
+    extensions: ['.js'],
     alias: {
       'vue$': 'vue/dist/vue',
       'src': path.resolve(__dirname, '../src'),
     }
   },
-  resolveLoader: {
-    fallback: [path.join(__dirname, '../node_modules')]
-  },
   module: {
-    preLoaders: [
+    rules: [
       {
+        enforce: 'pre',
         test: /\.js$/,
-        loader: 'eslint',
+        loader: 'eslint-loader',
         include: projectRoot,
         exclude: /node_modules/
-      }
-    ],
-    loaders: [
+      },
       {
         test: /\.js$/,
-        loader: 'babel',
+        loader: 'babel-loader',
         include: projectRoot,
         exclude: /node_modules/
       }
     ]
-  },
-  eslint: {
-    formatter: require('eslint-friendly-formatter')
   }
 }
