@@ -1,6 +1,6 @@
 {
   "name": "vue-intercom",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "An Intercom plugin for Vue.js",
   "contributors": [
     "Tyrone Tudehope <tyronetudehope@gmail.com>"
@@ -9,9 +9,7 @@
   "main": "lib/index.js",
   "repository": "continuon/vue-intercom",
   "scripts": {
-    "bundle:web": "rm -rf dist && webpack --config build/webpack.bundle.conf.js",
-    "bundle:lib": "rm -rf lib && babel src --out-dir lib",
-    "build": "npm run bundle:lib && npm run bundle:web",
+    "build": "rollup -c && uglifyjs -c -o dist/vue-intercom.min.js dist/vue-intercom.js",
     "unit": "karma start test/unit/karma.conf.js --watch",
     "test": "karma start test/unit/karma.conf.js --single-run",
     "lint": "eslint --ext .js src test/unit/index.js test/unit/specs",
@@ -53,7 +51,12 @@
     "mocha": "^4.0.0",
     "phantomjs-prebuilt": "^2.1.15",
     "prettier": "^1.7.4",
+    "rollup": "^0.50.0",
+    "rollup-plugin-buble": "^0.16.0",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-vue": "^2.5.2",
     "sinon": "^4.0.1",
+    "uglify-js": "^3.1.6",
     "vue": "^2.4.4",
     "webpack": "^3.6.0",
     "webpack-merge": "^4.1.0"

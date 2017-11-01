@@ -37,7 +37,7 @@ describe('Intercom plugin', () => {
       it('is called with an app_id attribute', () => {
         const vm = new Vue({})
         vm.$intercom.boot()
-        assert(window.Intercom.calledOnce)
+        assert.isTrue(window.Intercom.calledOnce)
         const options = window.Intercom.args[0][1]
         assert.strictEqual(options.app_id, 'foobar')
         assert.isTrue(window.Intercom.calledWith('boot'))

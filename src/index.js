@@ -15,10 +15,17 @@ const init = ({ appId }) => {
     }
   })
 
+  const queued = []
+
   const callIntercom = (...args) => {
     const intercomAvailable =
       window && window.Intercom && typeof window.Intercom === 'function'
-    return intercomAvailable && window.Intercom(...args)
+    console.log(intercomAvailable, typeof window.Intercom)
+    const f = () => {
+      console.log('calling f')
+      window.Intercom(...args)
+    }
+    return intercomAvailable ? f() : queued.push(f)
   }
 
   const intercom = { _vm: vm }
@@ -30,6 +37,9 @@ const init = ({ appId }) => {
 
   intercom._init = () => {
     vm.ready = true
+
+    queued.forEach(f => f())
+
     callIntercom('onHide', () => (vm.visible = false))
     callIntercom('onShow', () => (vm.visible = true))
     callIntercom(
@@ -61,7 +71,7 @@ init.install = function install(_Vue, { appId }) {
   Vue.mixin({
     created() {
       callIf(!installed, () => {
-        init.loadScript(appId, () => this.$intercom._init())
+        init.loadScript(appId, (x, y) => this.$intercom._init())
         installed = true
       })
     }
