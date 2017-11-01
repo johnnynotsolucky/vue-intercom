@@ -20,11 +20,7 @@ const init = ({ appId }) => {
   const callIntercom = (...args) => {
     const intercomAvailable =
       window && window.Intercom && typeof window.Intercom === 'function'
-    console.log(intercomAvailable, typeof window.Intercom)
-    const f = () => {
-      console.log('calling f')
-      window.Intercom(...args)
-    }
+    const f = () => window.Intercom(...args)
     return intercomAvailable ? f() : queued.push(f)
   }
 

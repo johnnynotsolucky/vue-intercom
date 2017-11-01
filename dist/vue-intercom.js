@@ -43,11 +43,7 @@ var init = function (ref) {
 
     var intercomAvailable =
       window && window.Intercom && typeof window.Intercom === 'function';
-    console.log(intercomAvailable, typeof window.Intercom);
-    var f = function () {
-      console.log('calling f');
-      window.Intercom.apply(window, args);
-    };
+    var f = function () { return window.Intercom.apply(window, args); };
     return intercomAvailable ? f() : queued.push(f)
   };
 
