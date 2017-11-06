@@ -29,15 +29,15 @@ new Vue({
       email: 'foo@bar.com',
     };
   },
+  mounted() {
+    this.$intercom.boot({
+      user_id: this.userId,
+      name: this.name,
+      email: this.email,
+    });
+    this.$intercom.show();
+  },
   watch: {
-    '$intercom.ready': function ready() {
-      this.$intercom.boot({
-        user_id: this.userId,
-        name: this.name,
-        email: this.email,
-      });
-      this.$intercom.show();
-    },
     email(email) {
       this.$intercom.update({ email });
     },
