@@ -69,7 +69,8 @@ var init = function (ref) {
   intercom.boot = function (options) {
     if ( options === void 0 ) options = { app_id: appId };
 
-    return callIntercom('boot', options);
+    callIf(!options.app_id, function () { return (options.app_id = appId); });
+    callIntercom('boot', options);
   };
   intercom.shutdown = function () { return callIntercom('shutdown'); };
   intercom.update = function () {

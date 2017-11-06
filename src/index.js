@@ -43,7 +43,10 @@ const init = ({ appId }) => {
       unreadCount => (vm.unreadCount = unreadCount)
     )
   }
-  intercom.boot = (options = { app_id: appId }) => callIntercom('boot', options)
+  intercom.boot = (options = { app_id: appId }) => {
+    callIf(!options.app_id, () => (options.app_id = appId))
+    callIntercom('boot', options)
+  }
   intercom.shutdown = () => callIntercom('shutdown')
   intercom.update = (...options) => callIntercom('update', ...options)
   intercom.show = () => callIntercom('show')

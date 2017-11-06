@@ -4,13 +4,13 @@ import buble from 'rollup-plugin-buble'
 
 export default {
   globals: { vue: 'Vue' },
-  entry: 'src/index.js',
+  input: 'src/index.js',
   plugins: [
     resolve(),
     vue(),
     buble()
   ],
-  targets: [
-    { dest: 'dist/vue-intercom.js', format: 'umd', name: 'VueIntercom' }
+  output: [
+    { file: 'dist/vue-intercom.js', format: 'umd', name: 'VueIntercom' }
   ]
 }
