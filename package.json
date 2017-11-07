@@ -6,7 +6,7 @@
     "Tyrone Tudehope <tyronetudehope@gmail.com>"
   ],
   "license": "MIT",
-  "main": "lib/index.js",
+  "main": "dist/vue-intercom.js",
   "repository": "continuon/vue-intercom",
   "scripts": {
     "build": "rollup -c && uglifyjs -c -o dist/vue-intercom.min.js dist/vue-intercom.js",
