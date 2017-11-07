@@ -45,6 +45,14 @@ new Vue({
 });
 ```
 
+## Example App
+
+```
+cd example
+yarn
+yarn dev
+```
+
 ## API
 
 ### Values
