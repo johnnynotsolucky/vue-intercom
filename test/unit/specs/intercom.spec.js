@@ -4,6 +4,7 @@ import Vue from 'vue'
 describe('Intercom plugin', () => {
   describe('State', () => {
     it('has default initial state', () => {
+      delete window.Intercom //  Prevent placeholder Intercom affecting tests
       const vm = new Vue({})
       assert.strictEqual(vm.$intercom.ready, false)
       assert.strictEqual(vm.$intercom.visible, false)

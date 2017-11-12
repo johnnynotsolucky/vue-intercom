@@ -15,14 +15,7 @@ const init = ({ appId }) => {
     }
   })
 
-  const queued = []
-
-  const callIntercom = (...args) => {
-    const intercomAvailable =
-      window && window.Intercom && typeof window.Intercom === 'function'
-    const f = () => window.Intercom(...args)
-    return intercomAvailable ? f() : queued.push(f)
-  }
+  const callIntercom = (...args) => window.Intercom(...args)
 
   const intercom = { _vm: vm }
 
@@ -31,10 +24,9 @@ const init = ({ appId }) => {
     mapInstanceToProps(vm, ['ready', 'visible', 'unreadCount'])
   )
 
+  intercom._call = callIntercom
   intercom._init = () => {
     vm.ready = true
-
-    queued.forEach(f => f())
 
     callIntercom('onHide', () => (vm.visible = false))
     callIntercom('onShow', () => (vm.visible = true))
@@ -70,7 +62,17 @@ init.install = function install(_Vue, { appId }) {
   Vue.mixin({
     created() {
       callIf(!installed, () => {
-        init.loadScript(appId, (x, y) => this.$intercom._init())
+        if (typeof window.Intercom === 'function') {
+          this.$intercom._init()
+          this.$intercom._call('reattach_activator')
+          this.$intercom.update()
+        } else {
+          const placeholder = (...args) => placeholder.c(args)
+          placeholder.q = []
+          placeholder.c = args => placeholder.q.push(args)
+          window.Intercom = placeholder
+          init.loadScript(appId, () => this.$intercom._init())
+        }
         installed = true
       })
     }
@@ -82,6 +84,7 @@ init.install = function install(_Vue, { appId }) {
 
 init.loadScript = function loadScript(appId, done) {
   const script = document.createElement('script')
+  script.async = true
   script.src = `https://widget.intercom.io/widget/${appId}`
   const firstScript = document.getElementsByTagName('script')[0]
   firstScript.parentNode.insertBefore(script, firstScript)

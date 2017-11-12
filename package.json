@@ -1,6 +1,6 @@
 {
   "name": "vue-intercom",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "An Intercom plugin for Vue.js",
   "contributors": [
     "Tyrone Tudehope <tyronetudehope@gmail.com>"
@@ -14,7 +14,7 @@
     "test": "karma start test/unit/karma.conf.js --single-run",
     "lint": "eslint --ext .js src test/unit/index.js test/unit/specs",
     "prepublish": "npm run lint && npm test && npm run build",
-    "prettify": "prettier src/**/*.js test/**/*.js --write"
+    "format": "prettier src/**/*.js test/**/*.js --write"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
