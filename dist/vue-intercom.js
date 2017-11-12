@@ -35,16 +35,11 @@ var init = function (ref) {
     }
   });
 
-  var queued = [];
-
   var callIntercom = function () {
     var args = [], len = arguments.length;
     while ( len-- ) args[ len ] = arguments[ len ];
 
-    var intercomAvailable =
-      window && window.Intercom && typeof window.Intercom === 'function';
-    var f = function () { return window.Intercom.apply(window, args); };
-    return intercomAvailable ? f() : queued.push(f)
+    window.Intercom.apply(window, args);
   };
 
   var intercom = { _vm: vm };
@@ -54,10 +49,9 @@ var init = function (ref) {
     mapInstanceToProps(vm, ['ready', 'visible', 'unreadCount'])
   );
 
+  intercom._call = callIntercom;
   intercom._init = function () {
     vm.ready = true;
-
-    queued.forEach(function (f) { return f(); });
 
     callIntercom('onHide', function () { return (vm.visible = false); });
     callIntercom('onShow', function () { return (vm.visible = true); });
@@ -107,7 +101,22 @@ init.install = function install(_Vue, ref) {
       var this$1 = this;
 
       callIf(!installed, function () {
-        init.loadScript(appId, function (x, y) { return this$1.$intercom._init(); });
+        if (typeof window.Intercom === 'function') {
+          this$1.$intercom._init();
+          this$1.$intercom._call('reattach_activator');
+          this$1.$intercom.update();
+        } else {
+          var placeholder = function () {
+            var args = [], len = arguments.length;
+            while ( len-- ) args[ len ] = arguments[ len ];
+
+            return placeholder.c(args);
+          };
+          placeholder.q = [];
+          placeholder.c = function (args) { return placeholder.q.push(args); };
+          window.Intercom = placeholder;
+          init.loadScript(appId, function () { return this$1.$intercom._init(); });
+        }
         installed = true;
       });
     }
@@ -119,6 +128,7 @@ init.install = function install(_Vue, ref) {
 
 init.loadScript = function loadScript(appId, done) {
   var script = document.createElement('script');
+  script.async = true;
   script.src = "https://widget.intercom.io/widget/" + appId;
   var firstScript = document.getElementsByTagName('script')[0];
   firstScript.parentNode.insertBefore(script, firstScript);

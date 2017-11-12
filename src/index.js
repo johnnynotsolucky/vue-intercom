@@ -15,7 +15,10 @@ const init = ({ appId }) => {
     }
   })
 
-  const callIntercom = (...args) => window.Intercom(...args)
+  const callIntercom = (...args) => {
+    window.Intercom(...args)
+    console.log(`window.Intercom called with ${JSON.stringify(args)}`)
+  }
 
   const intercom = { _vm: vm }
 
