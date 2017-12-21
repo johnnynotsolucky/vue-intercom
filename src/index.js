@@ -15,10 +15,7 @@ const init = ({ appId }) => {
     }
   })
 
-  const callIntercom = (...args) => {
-    window.Intercom(...args)
-    console.log(`window.Intercom called with ${JSON.stringify(args)}`)
-  }
+  const callIntercom = (...args) => window.Intercom(...args)
 
   const intercom = { _vm: vm }
 
@@ -63,7 +60,7 @@ init.install = function install(_Vue, { appId }) {
   Vue = _Vue
   const vueIntercom = init({ appId })
   Vue.mixin({
-    created() {
+    mounted() {
       callIf(!installed, () => {
         if (typeof window.Intercom === 'function') {
           this.$intercom._init()

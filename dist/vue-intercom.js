@@ -39,7 +39,7 @@ var init = function (ref) {
     var args = [], len = arguments.length;
     while ( len-- ) args[ len ] = arguments[ len ];
 
-    window.Intercom.apply(window, args);
+    return window.Intercom.apply(window, args);
   };
 
   var intercom = { _vm: vm };
@@ -97,7 +97,7 @@ init.install = function install(_Vue, ref) {
   Vue = _Vue;
   var vueIntercom = init({ appId: appId });
   Vue.mixin({
-    created: function created() {
+    mounted: function mounted() {
       var this$1 = this;
 
       callIf(!installed, function () {
