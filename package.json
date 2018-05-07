@@ -7,7 +7,7 @@
   ],
   "license": "MIT",
   "main": "dist/vue-intercom.js",
-  "repository": "continuon/vue-intercom",
+  "repository": "johnnynotsolucky/vue-intercom",
   "scripts": {
     "build": "rollup -c && uglifyjs -c -o dist/vue-intercom.min.js dist/vue-intercom.js",
     "unit": "karma start test/unit/karma.conf.js --watch",
