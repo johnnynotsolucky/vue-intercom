@@ -1,4 +1,4 @@
-/* globals window */
+/* globals window, Event */
 import Vue from 'vue'
 
 const createVm = () => {
@@ -18,9 +18,10 @@ describe('Intercom plugin', () => {
       assert.strictEqual(vm.$intercom.unreadCount, 0)
     })
 
-    it('sets ready indicator on init', (done) => {
+    it('sets ready indicator on load', (done) => {
       window.Intercom = sinon.spy()
       const vm = createVm()
+      window.dispatchEvent(new Event('load'))
       setTimeout(() => {
         vm.$nextTick().then(() => {
           assert.strictEqual(vm.$intercom.ready, true)
