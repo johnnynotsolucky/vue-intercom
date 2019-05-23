@@ -1,13 +1,13 @@
 {
-  "name": "vue-intercom",
-  "version": "1.0.13",
-  "description": "An Intercom plugin for Vue.js",
+  "name": "@arkane-network/vue-intercom",
+  "version": "1.0.0",
+  "description": "An Intercom plugin for Vue.js, fork from johnnynotsolucky/vue-intercom@1.0.13",
   "contributors": [
-    "Tyrone Tudehope <tyronetudehope@gmail.com>"
+    "Steve Maris <steve.maris@arkane.network>"
   ],
   "license": "MIT",
   "main": "dist/vue-intercom.js",
-  "repository": "johnnynotsolucky/vue-intercom",
+  "repository": "ArkaneNetwork/vue-intercom",
   "scripts": {
     "build": "rollup -c && uglifyjs -c -o dist/vue-intercom.min.js dist/vue-intercom.js",
     "unit": "karma start test/unit/karma.conf.js --watch",
