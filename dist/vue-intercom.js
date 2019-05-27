@@ -116,7 +116,9 @@ init.install = function install(_Vue, ref) {
           placeholder.c = function (args) { return placeholder.q.push(args); };
           window.Intercom = placeholder;
           var loaded = function () { return init.loadScript(appId, function () { return this$1.$intercom._init(); }); };
-          if (window.attachEvent) {
+          if (document.readyState === 'complete') {
+            loaded();
+          } else if (window.attachEvent) {
             window.attachEvent('onload', loaded);
           } else {
             window.addEventListener('load', loaded, false);

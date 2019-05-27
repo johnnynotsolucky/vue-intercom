@@ -72,7 +72,9 @@ init.install = function install(_Vue, { appId }) {
           placeholder.c = args => placeholder.q.push(args)
           window.Intercom = placeholder
           const loaded = () => init.loadScript(appId, () => this.$intercom._init())
-          if (window.attachEvent) {
+          if (document.readyState === 'complete') {
+            loaded()
+          } else if (window.attachEvent) {
             window.attachEvent('onload', loaded)
           } else {
             window.addEventListener('load', loaded, false)
